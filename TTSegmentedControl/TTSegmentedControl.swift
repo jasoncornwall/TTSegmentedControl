@@ -82,7 +82,7 @@ open class TTSegmentedControl: UIView {
     fileprivate var currentSelectedIndex = 0
     
     open var noItemSelected:Bool = false {
-        didSet {            
+        didSet {
             self.thumbView.isHidden = noItemSelected
             self.selectedLabelsView.isHidden = noItemSelected
         }
@@ -100,11 +100,20 @@ open class TTSegmentedControl: UIView {
         super.init(coder: aDecoder)
     }
     
+    open func setConfigurated(_ boolean: Bool) {
+        isConfigurated = boolean
+    }
+    
+    fileprivate func clearItemLabels() {
+        allItemLabels.removeAll()
+        containerView.subviews.forEach({ $0.removeFromSuperview() })
+    }
     
     open override func layoutSubviews() {
         super.layoutSubviews()
-        
         if !isConfigurated {
+            clearItemLabels()
+            
             configureItemsConent()
             configureViewBounds()
             
@@ -531,12 +540,12 @@ extension TTSegmentedControl {
             }
         } else {
             UIView.animate(withDuration: 0.3, animations: {
-               block()
+                block()
             }, completion: { (completed) in
                 completion(completed)
             })
         }
-
+        
     }
     
     fileprivate func selectedViewWidthForPoint(_ point: CGPoint)-> CGFloat {
@@ -780,4 +789,6 @@ extension UIFont {
         return UIFont(name: "HelveticaNeue-Light", size: size)!
     }
 }
+
+
 
